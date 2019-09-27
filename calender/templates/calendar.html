@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% load staticfiles %}
+        <link href="{% static 'fullcalendar.min.css'%}" rel='stylesheet' />
+        <link href="{% static 'fullcalendar.print.min.css'%}" rel='stylesheet' media='print' />
+        <script src="{% static 'lib/moment.min.js'%}"></script>
+        <script src="{% static 'lib/jquery.min.js'%}"></script>
+        <script src="{% static 'fullcalendar.min.js'%}"></script>
+        <script>
+            $(document).ready(function(){
+                $(".back").click(function(e){
+                    history.back();
+                });
+            {% block extrahead %}
+                $("#calender").fullcalender({
+                    defaultDate: '2019-09-16',
+                    editable: true,
+                    eventLimit: true,
+                    events: [
+                        {% for val in key.values %}
+                            {
+                                title: '{{val.title}}',
+                                start: '{{val.start}}',
+                                end: '{{val.end}}'
+                            },
+                        {% endfor %}
+                    ],
+                    header: {
+                        left: 'prev, next today',
+                        center: 'title',
+                        right: 'month, basicWeek, basicDay'
+                    },
+                    editable: true,
+                    eventLimit: true, 
+                    selectable: true,
+                    selectHelper: true
+                });
+            {% endblock %}
+            });
+        </script>
+        <style>
+
+        </style>
+    </head>
+    <body>
+        <input type="button" value="Back" class="back"/>
+        <div id="calender"></div>
+    </body>
+</html>
